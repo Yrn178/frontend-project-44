@@ -7,52 +7,50 @@ const calculator = () => {
     const name = readlineSync.question('May I have your name? ');
     console.log(`Hello, ${name}!`);
     console.log('What is the result of the expression?');
-for (let i = 0; i < 3; i++) {
-    const randomNum = generateNumber(1, 30);
-    const randomNum2 = generateNumber(1, 30);
-    let operation = generateNumber(1, 3);
-    switch (operation) {
-        case 1:
-            operation = '+';
-            break;
-        case 2:
-            operation = '-';
-            break;
-        case 3:
-            operation = '*';
-            break;
-    }
-    console.log("Question:", `${randomNum} ${operation} ${randomNum2}` );
-    const answer = readlineSync.question('Your answer:');
-    if (operation === '+') {
-        if (answer == randomNum+randomNum2) {
-            console.log("Correct!");
+
+    for (let i = 0; i < 3; i++) {
+        const randomNum = generateNumber(1, 30);
+        const randomNum2 = generateNumber(1, 30);
+        let operation = generateNumber(1, 3);
+        
+        switch (operation) {
+            case 1:
+                operation = '+';
+                break;
+            case 2:
+                operation = '-';
+                break;
+            case 3:
+                operation = '*';
+                break;
         }
-        else if (answer !== randomNum+randomNum2) {
-            console.log(`'${answer}' is wrong answer ;(. Correct answer was '${randomNum+randomNum2}'.`);
+
+        console.log("Question:", `${randomNum} ${operation} ${randomNum2}`);
+        const answer = readlineSync.question('Your answer:');
+        let correctAnswer;
+        
+        switch (operation) {
+            case '+':
+                correctAnswer = randomNum + randomNum2;
+                break;
+            case '-':
+                correctAnswer = randomNum - randomNum2;
+                break;
+            case '*':
+                correctAnswer = randomNum * randomNum2;
+                break;
+        }
+
+        if (Number(answer) !== correctAnswer) {
+            console.log(`'${answer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
             console.log(`Let's try again, ${name}!`);
+            process.exit(1); // Завершаем игру при ошибке
         }
+
+        console.log("Correct!");
     }
-    else if (operation === '-') {
-        if (answer == randomNum-randomNum2) {
-            console.log("Correct!");
-        }
-        else if (answer !== randomNum-randomNum2) {
-            console.log(`'${answer}' is wrong answer ;(. Correct answer was '${randomNum-randomNum2}'.`);
-            console.log(`Let's try again, ${name}!`);
-        }
-    }
-    else if (operation === '*') {
-        if (answer == randomNum*randomNum2) {
-            console.log("Correct!");
-        }
-        else if (answer !== randomNum*randomNum2) {
-            console.log(`'${answer}' is wrong answer ;(. Correct answer was '${randomNum*randomNum2}'.`);
-            console.log(`Let's try again, ${name}!`);
-        }
-    }
-}
-console.log(`Congratulations, ${name}!`);
+
+    console.log(`Congratulations, ${name}!`);
 };
 
 calculator();
