@@ -7,30 +7,27 @@ const getGCD = () => {
     const name = readlineSync.question('May I have your name? ');
     console.log(`Hello, ${name}!`);
     console.log('Find the greatest common divisor of given numbers.');
+
     for (let i = 0; i < 3; i++) {
         const randomNum = generateNumber(1, 30);
         const randomNum2 = generateNumber(1, 30);
         console.log("Question:", randomNum, randomNum2);
         const answer = readlineSync.question('Your answer:');
-        var minNum = Math.min(randomNum, randomNum2);
-        let gcd = 0;        
-        for (let j = minNum; j > 0; j--) {
-            if (randomNum % j == 0 && randomNum2 % j == 0) {
-                gcd = j;
-                break;
-            }
-        }        
-        switch (Number(answer)) {
-            case gcd:
-                console.log("Correct!");
-                break;
-            default:
-                console.log(`'${answer}' is wrong answer ;(."Correct answer was '${gcd}'.`);
-                console.log(`Let's try again, ${name}`);
-                break;
+        
+        // Вычисляем НОД
+        const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+        const correctAnswer = gcd(randomNum, randomNum2);
+
+        if (Number(answer) !== correctAnswer) {
+            console.log(`'${answer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
+            console.log(`Let's try again, ${name}!`);
+            process.exit(1); // Завершаем игру при ошибке
+        }
+
+        console.log("Correct!");
     }
-    }
+
     console.log(`Congratulations, ${name}!`);
-}
+};
 
 getGCD();
