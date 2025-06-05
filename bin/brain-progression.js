@@ -1,35 +1,47 @@
 #!/usr/bin/env node
 import readlineSync from 'readline-sync';
-import {readlineSyncQuestion, generateNumber} from "../src/cli.js";
+import { generateNumber } from '../src/utils.js';
 
-const progression = () => {
+const progressionGame = () => {
     console.log('Welcome to the Brain Games!');
     const name = readlineSync.question('May I have your name? ');
     console.log(`Hello, ${name}!`);
     console.log('What number is missing in the progression?');
-        const progressioin = []
-        const long = generateNumber(5, 10);
-        const step = generateNumber(1, 9);
-        const number = generateNumber(1, 10);
-        for (let i = 0; i < long; i++) {
-            if (i === number) {
-                progressioin.push('..');
-                const reply = step
-            }
-            else{
-                progressioin.push(step);
-            }
-            step = step + step;
+
+    const length = generateNumber(5, 10); // Длина прогрессии
+    const step = generateNumber(1, 9); // Шаг прогрессии
+    const firstNum = generateNumber(1, 10); // Первое число
+    const hiddenPos = generateNumber(0, length - 1); // Позиция скрытого числа
+
+    const progression = [];
+    let correctAnswer;
+    
+    // Создаем прогрессию
+    for (let i = 0; i < length; i++) {
+        const currentNum = firstNum + step * i;
+        if (i === hiddenPos) {
+            progression.push('..');
+            correctAnswer = currentNum;
+        } else {
+            progression.push(currentNum);
         }
-        console.log(progressioin);
-        const answer = readlineSync.question('Your answer:');
-        switch (answer) {
-            case reply:
-                console.log("Correct!");
-                break;
-            default:
-                break;
-        }
+    }
+
+    console.log('Question:', progression.join(' '));
+    const answer = readlineSync.question('Your answer:');
+
+    if (Number(answer) === correctAnswer) {
+        console.log('Correct!');
+    } else {
+        console.log(`'${answer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
+        console.log(`Let's try again, ${name}!`);
+        process.exit(1);
+    }
+};
+
+// Запускаем 3 раунда игры
+for (let i = 0; i < 3; i++) {
+    progressionGame();
 }
 
-progression()
+console.log(`Congratulations, ${name}!`);
