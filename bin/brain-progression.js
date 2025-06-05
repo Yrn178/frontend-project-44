@@ -1,41 +1,60 @@
 #!/usr/bin/env node
 import readlineSync from 'readline-sync';
-import { generateNumber } from "../src/cli.js";
 
-const progressionGame = () => {
-    console.log('Welcome to the Brain Games!');
-    const name = readlineSync.question('May I have your name? ');
-    console.log(`Hello, ${name}!`);
-    console.log('What number is missing in the progression?');
+// Функция для генерации случайного числа
+const getRandomInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
 
-    // Генерируем прогрессию
-    const length = generateNumber(5, 10);
-    const step = generateNumber(1, 9);
-    const start = generateNumber(1, 10);
-    const hiddenIndex = generateNumber(0, length - 1);
-    
-    let progression = [];
-    let correctAnswer;
-    
-    for (let i = 0; i < length; i++) {
-        const current = start + i * step;
-        if (i === hiddenIndex) {
-            progression.push('..');
-            correctAnswer = current.toString();
-        } else {
-            progression.push(current);
-        }
+// Функция создания прогрессии с пропущенным числом
+const generateProgression = () => {
+  const length = getRandomInt(5, 10); // Длина прогрессии от 5 до 10
+  const step = getRandomInt(1, 10);  // Шаг прогрессии
+  const start = getRandomInt(1, 20); // Начальное число
+  const hiddenIndex = getRandomInt(0, length - 1); // Индекс скрытого числа
+
+  let progression = [];
+  let correctAnswer;
+
+  for (let i = 0; i < length; i += 1) {
+    const current = start + i * step;
+    if (i === hiddenIndex) {
+      progression.push('..');
+      correctAnswer = String(current);
+    } else {
+      progression.push(String(current));
     }
+  }
 
-    console.log(`Question: ${progression.join(' ')}`);
+  return {
+    question: progression.join(' '),
+    answer: correctAnswer,
+  };
+};
+
+// Основная функция игры
+const runProgressionGame = () => {
+  console.log('Welcome to the Brain Games!');
+  const userName = readlineSync.question('May I have your name? ');
+  console.log(`Hello, ${userName}!`);
+  console.log('What number is missing in the progression?');
+
+  // Играем 3 раунда
+  for (let i = 0; i < 3; i += 1) {
+    const { question, answer } = generateProgression();
+    console.log(`Question: ${question}`);
     const userAnswer = readlineSync.question('Your answer: ');
 
-    if (userAnswer === correctAnswer) {
-        console.log('Correct!');
-    } else {
-        console.log(`'${userAnswer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
-        console.log(`Let's try again, ${name}!`);
+    if (userAnswer !== answer) {
+      console.log(`'${userAnswer}' is wrong answer ;(. Correct answer was '${answer}'.`);
+      console.log(`Let's try again, ${userName}!`);
+      return;
     }
-}
+    console.log('Correct!');
+  }
 
-progressionGame();
+  // Если все ответы верные
+  console.log(`Congratulations, ${userName}!`);
+};
+
+runProgressionGame();
