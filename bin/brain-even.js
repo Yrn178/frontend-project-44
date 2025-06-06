@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import readlineSync from 'readline-sync';
-import {readlineSyncQuestion, generateNumber} from "../src/cli.js";
+import { generateNumber } from "../src/cli.js";
 const evenOdd = () => {
     console.log('Welcome to the Brain Games!');
     const name = readlineSync.question('May I have your name? ');
@@ -17,7 +17,7 @@ const evenOdd = () => {
         if (answer !== correctAnswer) {
             console.log(`'${answer}' is wrong answer ;(. Correct answer was '${correctAnswer}'.`);
             console.log(`Let's try again, ${name}!`);
-            process.exit(1);  // Завершаем игру с ошибкой
+            return;
         }
 
         console.log('Correct!');
