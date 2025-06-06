@@ -7,7 +7,7 @@ const evenOdd = () => {
     console.log(`Hello, ${name}!`);
     console.log('Answer "yes" if the number is even, otherwise answer "no".');
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i+=1) {
         const randomNum = generateNumber(1, 30);
         console.log("Question:", randomNum);
         const answer = readlineSync.question('Your answer:');

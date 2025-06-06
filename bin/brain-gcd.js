@@ -8,7 +8,7 @@ const getGCD = () => {
     console.log(`Hello, ${name}!`);
     console.log('Find the greatest common divisor of given numbers.');
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i+=1) {
         const randomNum = generateNumber(1, 30);
         const randomNum2 = generateNumber(1, 30);
         console.log("Question:", randomNum, randomNum2);

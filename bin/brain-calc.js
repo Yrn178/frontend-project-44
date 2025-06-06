@@ -8,7 +8,7 @@ const calculator = () => {
     console.log(`Hello, ${name}!`);
     console.log('What is the result of the expression?');
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 3; i+=1) {
         const randomNum = generateNumber(1, 30);
         const randomNum2 = generateNumber(1, 30);
         let operation = generateNumber(1, 3);
